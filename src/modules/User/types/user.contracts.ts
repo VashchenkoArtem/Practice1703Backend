@@ -50,4 +50,5 @@ export interface UserRepositoryContract {
 	getByEmail: (email: string) => Promise<User | null>;
 	getByIdWithoutPassword: (id: number) => Promise<UserWithoutPassword | null>;
 	create: (data: UserCreateInput) => Promise<User>;
+	// getUserByUsername: (username:string) => Promise<User | null>
 }

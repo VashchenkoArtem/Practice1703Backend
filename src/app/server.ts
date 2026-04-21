@@ -5,6 +5,7 @@ import cors from "cors";
 import { AppRouter } from "./routes";
 import { errorMiddleware } from "../middlewares";
 import { ENV, uploadDir } from "../config";
+import { ContactRouter } from "../modules/Contact/contact.router";
 
 
 const app = express();
@@ -12,7 +13,7 @@ const app = express();
 app.use(cors());
 app.use("/media/", express.static(uploadDir));
 app.use(express.json());
-app.use(AppRouter);
+app.use(AppRouter)
 
 app.use(errorMiddleware);
 
