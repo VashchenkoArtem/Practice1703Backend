@@ -34,7 +34,11 @@ export const ContactRepository: ContactRepositoryContract = {
 	async getAll(userId) {
 		try {
 			return await client.contact.findMany({
-				where: { ownerId: userId }
+				where: { ownerId: userId },
+				// select: {
+				// 	id: true,
+					
+				// },
 			});
 		} catch (err) {
 			throw err;

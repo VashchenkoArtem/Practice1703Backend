@@ -24,5 +24,3 @@ UserRouter.post(
 );
 
 UserRouter.get("/me", authMiddleware, UserController.me);
-
-UserRouter.get("/username/:username", authMiddleware, UserController.getUserByUsername);

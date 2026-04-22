@@ -35,17 +35,6 @@ export interface UserControllerContract {
 		res: Response<UserWithoutPassword, { userId: number }>,
 		next: NextFunction
 	) => void;
-	getUserByUsername: (
-		req: Request<
-			{username: string},
-			UserWithoutPassword,
-			object,
-			object,
-			{ userId: number }
-		>,
-		res: Response<UserWithoutPassword, { userId: number }>,
-		next: NextFunction
-	) => void;
 }
 
 export interface UserServiceContract {
@@ -55,12 +44,11 @@ export interface UserServiceContract {
 	}) => Promise<{ token: string }>;
 	register: (data: UserCreateInput) => Promise<{ token: string }>;
 	me: (id: number) => Promise<UserWithoutPassword>;
-	getUserByUsername: (username:string) => Promise<UserWithoutPassword>
 }
 
 export interface UserRepositoryContract {
 	getByEmail: (email: string) => Promise<User | null>;
 	getByIdWithoutPassword: (id: number) => Promise<UserWithoutPassword | null>;
 	create: (data: UserCreateInput) => Promise<User>;
-	getUserByUsername: (username:string) => Promise<UserWithoutPassword | null>
+	// getUserByUsername: (username:string) => Promise<User | null>
 }

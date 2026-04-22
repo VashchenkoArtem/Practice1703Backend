@@ -7,12 +7,12 @@ export interface ContactControllerContract {
 	create: (
 		req: Request<
 			object,
-			Icontact,
+			Icontact[] | string,
 			InferType<typeof ContactSchema.contact>,
             object, 
             { userId: number }
 		>,
-		res: Response<Icontact, { userId: number }>,
+		res: Response<Icontact | string, { userId: number }>,
 		next: NextFunction
 	) => void;
 	getAll: (
@@ -23,18 +23,18 @@ export interface ContactControllerContract {
 			object,
             { userId: number }
 		>,
-		res: Response<Icontact[], { userId: number }>,
+		res: Response<Icontact[] | string, { userId: number }>,
 		next: NextFunction
 	) => void;
 	getById: (
 		req: Request<
             {id:string},
-            Icontact,
+            Icontact | string,
 			object,
             object,
 			{ userId: number }
 		>,
-		res: Response<Icontact, { userId: number }>,
+		res: Response<Icontact | string, { userId: number }>,
 		next: NextFunction
 	) => void;
 }

@@ -1,4 +1,4 @@
-import { BadRequestError } from "../../errors";
+import { UserService } from "../User/user.service";
 import { ContactService } from "./contact.service";
 import { ContactControllerContract } from "./types/contact.contracts";
 
@@ -18,7 +18,7 @@ export const ContactController: ContactControllerContract = {
             const userId = res.locals.userId
             const id = Number(req.params.id)
             if (isNaN(id)) {
-                next(new BadRequestError("Invalid contact ID format"))
+                return res.status(400).json("Invalid contact ID format" );
             }
             const contact = await ContactService.getById(userId,id)
             res.status(200).json(contact)
