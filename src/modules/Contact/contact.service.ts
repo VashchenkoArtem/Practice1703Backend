@@ -1,8 +1,6 @@
 import { ContactServiceContract } from "./types/contact.contracts";
 
-import { Prisma } from "@prisma/client";
-import { client } from "../../client/client";
-import { BadRequestError, ConflictError, NotFoundError } from "../../errors";
+import {  NotFoundError } from "../../errors";
 import { ContactRepository } from "./contact.repository";
 
 export const ContactService: ContactServiceContract = {
