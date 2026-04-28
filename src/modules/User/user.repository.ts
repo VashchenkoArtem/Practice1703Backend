@@ -57,22 +57,31 @@ export const UserRepository: UserRepositoryContract = {
 			throw err;
 		}
 	},
-	// getUserByUsername(username) {
-	// 	try {
-	// 		return await client.user.findUnique({
-	// 			where:{
-	// 				username:username,
-	// 			}
-	// 		});
-	// 	} catch (err) {
-	// 		if (err instanceof Prisma.PrismaClientKnownRequestError) {
-	// 			if (err.code === "P2002") {
-	// 				throw new ConflictError(
-	// 					"User with this email or username already exists",
-	// 				);
-	// 			}
-	// 		}
-	// 		throw err;
-	// 	}
-	// },
+	async getUserByUsername(username) {
+		try {
+			return await client.user.findUnique({
+				where:{
+					username:username,
+				},
+				select: {
+					id: true,
+					email: true,
+					username: true,
+					avatar: true,
+					name: true,
+					surname: true, 
+					lastSeenAt: true
+				}
+			});
+		} catch (err) {
+			if (err instanceof Prisma.PrismaClientKnownRequestError) {
+				if (err.code === "P2002") {
+					throw new ConflictError(
+						"User with this email or username already exists",
+					);
+				}
+			}
+			throw err;
+		}
+	}
 };

@@ -36,4 +36,13 @@ export const UserController: UserControllerContract = {
 			next(err);
 		}
 	},
+	async getUserByUsername(req, res, next) {
+		try {
+			const { username } = req.params;
+			const result = await UserService.getUserByUsername(username);
+			res.status(200).json(result);
+		} catch (err) {
+			next(err);
+		}
+	},
 };

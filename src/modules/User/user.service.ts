@@ -52,4 +52,9 @@ export const UserService: UserServiceContract = {
 		if (!user) throw new NotFoundError("User");
 		return user;
 	},
+	async getUserByUsername(username) {
+		const user = await UserRepository.getUserByUsername(username);
+		if (!user) throw new NotFoundError("User");
+		return user;
+	}
 };
