@@ -60,8 +60,8 @@ export const UserRepository: UserRepositoryContract = {
 	async getUserByUsername(username) {
 		try {
 			return await client.user.findUnique({
-				where:{
-					username:username,
+				where: {
+					username,
 				},
 				select: {
 					id: true,
@@ -69,19 +69,16 @@ export const UserRepository: UserRepositoryContract = {
 					username: true,
 					avatar: true,
 					name: true,
-					surname: true, 
-					lastSeenAt: true
-				}
+					surname: true,
+					lastSeenAt: true,
+				},
 			});
 		} catch (err) {
 			if (err instanceof Prisma.PrismaClientKnownRequestError) {
-				if (err.code === "P2002") {
-					throw new ConflictError(
-						"User with this email or username already exists",
-					);
-				}
+				throw new Error("Database request error");
 			}
-			throw err;
+
+			throw new Error("Internal server error");
 		}
 	}
 };

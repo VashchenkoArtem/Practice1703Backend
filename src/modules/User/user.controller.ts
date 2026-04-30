@@ -39,7 +39,15 @@ export const UserController: UserControllerContract = {
 	async getUserByUsername(req, res, next) {
 		try {
 			const { username } = req.params;
+
+			if (!username) {
+				return res.status(400).json({
+					message: "Username is required",
+				});
+			}
+
 			const result = await UserService.getUserByUsername(username);
+
 			res.status(200).json(result);
 		} catch (err) {
 			next(err);

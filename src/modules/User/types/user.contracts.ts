@@ -43,7 +43,7 @@ export interface UserControllerContract {
 			object,
 			{ userId: number }
 		>,
-		res: Response<UserWithoutPassword, { userId: number }>,
+		res: Response<UserWithoutPassword | {message: string}, { userId: number }>,
 		next: NextFunction
 	) => void;
 }
