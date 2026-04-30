@@ -4,6 +4,7 @@ export const ContactSchema = {
 	contact: yup.object({
 		// avatar: yup.string().required(),
 		contactId: yup.number().required(),
-        localName: yup.string().required()
+        contactName: yup.string().required(),
+		contactSurname: yup.string().required(),
 	})
 };

@@ -24,12 +24,13 @@ export function procImgMiddleware(width: number, quality:number, fieldName: stri
         const file = req.body[fieldName] 
 
         try {
-
+            console.log(file)
             if (file && typeof file === "string"){
                 if (await imageExist(file)){
                     if (!req.file) {
                         req.file = {} as Express.Multer.File
                     }
+                    console.log("asdadad")
                     req.file.filename = file
                     next()
                     return

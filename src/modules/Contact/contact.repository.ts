@@ -13,7 +13,8 @@ export const ContactRepository: ContactRepositoryContract = {
                     owner: {
                         connect: {id: userId}
                     },
-                    localName:data.localName,
+                    contactName:data.contactName,
+					contactSurname: data.contactSurname,
                     avatar: filename,
                     contactUser: {
                         connect:{ id: Number(data.contactId)}

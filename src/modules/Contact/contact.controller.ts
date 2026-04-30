@@ -30,6 +30,7 @@ export const ContactController: ContactControllerContract = {
         try{
             const userId = res.locals.userId
             const body = req.body
+            console.log(body)
             const avatar = req.file?.filename
             const contact = await ContactService.create(body,userId,avatar as string)
             res.status(200).json(contact)
