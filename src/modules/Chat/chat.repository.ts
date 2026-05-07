@@ -35,8 +35,25 @@ export const ChatRepository: ChatRepositoryContract = {
                     otherUser
                 };
         });
-        return result
-        }catch(error){
+            return result
+        } catch(error) {
+            throw error
+        }
+    },
+
+    getChatMessages: async (chatId) => {
+        try {
+            const chatMessage = await client.message.findMany({
+                where: {
+                    chatId: chatId
+                },
+                include: {
+                    sender: true
+                }
+            })
+
+            return chatMessage
+        } catch(error) {
             throw error
         }
     }

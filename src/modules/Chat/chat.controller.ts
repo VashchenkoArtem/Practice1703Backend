@@ -10,5 +10,15 @@ export const ChatController: ChatControllerContract = {
         }catch(error){
             next(error)
         }
+    },
+
+    getChatMessages: async (req, res, next) => {
+        try{
+            const chatId = req.params.chatId
+            const chatMessages = await ChatService.getChatMessages(Number(chatId))
+            res.status(200).json(chatMessages)
+        }catch (error) {
+            next(error)
+        }
     }
 }

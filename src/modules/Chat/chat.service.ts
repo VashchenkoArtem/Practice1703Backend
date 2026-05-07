@@ -9,5 +9,14 @@ export const ChatService: ChatServiceContract = {
         }catch(error){
             throw error
         }
+    },
+
+    getChatMessages: async (chatId) => {
+        try {
+            const chatMessages = await ChatRepository.getChatMessages(chatId)
+            return chatMessages
+        } catch(error){
+            throw error
+        }
     }
 }
