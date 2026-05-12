@@ -1,4 +1,14 @@
 import { Prisma } from "@prisma/client";
 
 export type IChat = Prisma.ChatGetPayload<{}>
-export type IMessage = Prisma.MessageGetPayload<{}>
+export type IChatPartisipant = Prisma.ChatParticipantGetPayload<{}>
+
+export type IChatWithUsers = Prisma.ChatGetPayload<{
+    include: {
+        participants: {
+            select: {
+                userId: true
+            }
+        }
+    }
+}>

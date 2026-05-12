@@ -6,16 +6,39 @@ export const ChatService: ChatServiceContract = {
         try{
             const userChats = await ChatRepository.getChats(userId)
             return userChats
-        }catch(error){
+        } catch(error) {
             throw error
         }
     },
 
-    getChatMessages: async (chatId) => {
+    getAllWithChatParticipantInfo: async (userId) => {
         try {
-            const chatMessages = await ChatRepository.getChatMessages(chatId)
-            return chatMessages
+            const chats = await ChatRepository.getAllWithChatParticipantInfo(userId)
+            return chats
         } catch(error){
+            throw error
+        }
+    },
+
+    getChatParticipants: async (chatId) => {
+        try {
+            const participants = await ChatRepository.getChatParticipants(chatId)
+            return participants
+        } catch(error){
+            throw error
+        }
+    },
+
+    isUserChatPartisipant: async (chatId, userId) => {
+        try {
+            const participants = await ChatRepository.getChatParticipants(chatId)
+            const isUserInChat = participants.some((partisipant) => {
+                return partisipant.userId === userId
+            })
+
+            return isUserInChat
+
+        }  catch(error){
             throw error
         }
     }

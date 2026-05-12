@@ -41,20 +41,71 @@ export const ChatRepository: ChatRepositoryContract = {
         }
     },
 
-    getChatMessages: async (chatId) => {
+    getAllWithChatParticipantInfo: async (userId) => {
         try {
-            const chatMessage = await client.message.findMany({
+            const chats = await client.chat.findMany({
                 where: {
-                    chatId: chatId
+                    participants: {
+                        some: {
+                            userId: userId
+                        }
+                    }
                 },
                 include: {
-                    sender: true
+                    participants: {
+                        where: {
+                            userId: {
+                                not: userId
+                            }
+                        },
+                        select: {
+                            userId: true
+                        }
+                    }
                 }
             })
-
-            return chatMessage
+            return chats
         } catch(error) {
             throw error
         }
-    }
+    },
+
+    getChatByParticipants: async (userId, userIdSecond) => {
+        try {
+            const partisipantChat = await client.chat.findFirst({
+                where: {
+                    AND: [
+                        {participants: {
+                            some: {
+                                userId: userId
+                            }
+                        }},
+
+                        {participants: {
+                            some: {
+                                userId: userIdSecond
+                            }
+                        }}
+                    ]
+                },                
+            })
+            return partisipantChat
+        } catch(error) {
+            throw error
+        }
+    },
+
+    getChatParticipants: async (chatId) => {
+        try {
+            const participants = await client.chatParticipant.findMany({
+                where: {
+                    chatId: chatId
+                }
+            })
+            return participants
+        } catch(error) {
+            throw error
+        }
+    },
+
 }
