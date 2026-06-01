@@ -8,13 +8,31 @@ export const MessageSocketController: MessageSocketControllerContract = {
     },
     async sendMessage(socketServer, socket, data) {
         try {
+            console.log(data.type, data, "data")
+            if (data.type === "media") {
+                const mediaMessage = {
+                    id: Date.now(),
+                    type: data.type,
+                    text: data.text ?? null,
+                    mediaUrl: data.mediaUrl ?? null,
+                    senderId: socket.data.userId,
+                    chatId: data.chatId,
+                    chatAsLastMessageId: 0,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                };
+                this.newChatMessage(socketServer, mediaMessage); 
+                return;
+            }
+
             const message = await MessageService.create({
                 ...data,
-                senderId: socket.data.userId
+                senderId: socket.data.userId,
             });
+
             this.newChatMessage(socketServer, message);
-        }
-        catch (error) {
+
+        } catch (error) {
             console.log(error);
         }
     },

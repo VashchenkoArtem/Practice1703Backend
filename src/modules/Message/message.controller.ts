@@ -1,6 +1,7 @@
 import { MessageService } from "./message.service";
 import { MessageControllerContract } from "./types/message.contracts";
 import { BadRequestError } from "../../errors";
+import { MessageRepository } from "./message.repository";
 export const MessageController: MessageControllerContract = {
     getChatMessages: async (req, res, next) => {
         try {
@@ -30,5 +31,26 @@ export const MessageController: MessageControllerContract = {
         catch (error) {
             next(error);
         }
-    }
+    },
+    createMessageWithImage: async (req, res) => {
+        try {
+            const chatId = Number(req.params.chatId)
+            const userId = Number(res.locals.userId)
+            const {senderId, ...body} = req.body
+            if (Number.isNaN(chatId)) {
+                throw new BadRequestError("Chat ID must be an integer");
+            }
+            const data = {
+                chatId: Number(chatId),
+                mediaUrl: req.file?.filename || null,
+                senderId: userId,
+                ...body,
+            }
+            console.log(data)
+            const createdMessage = await MessageService.create(data)
+            res.status(200).json(createdMessage)
+        } catch (error) {
+            console.log(error)
+        }
+    },
 };

@@ -2,6 +2,7 @@ import { AuthenticationError } from "../../errors";
 import { ChatService } from "../Chat/chat.service";
 import { MessageRepository } from "./message.repository";
 import { MessageServiceContract } from "./types/message.contracts";
+
 export const MessageService: MessageServiceContract = {
     getChatMessages: async (chatId, userId, paginationData) => {
         const isParticipant = await ChatService.isUserChatParticipant(chatId, userId);
@@ -12,10 +13,11 @@ export const MessageService: MessageServiceContract = {
         return chatMessages;
     },
     create: async (data) => {
-        const isParticipant = await ChatService.isUserChatParticipant(data.chatId, data.senderId);
+        const isParticipant = await ChatService.isUserChatParticipant(Number(data.chatId), Number(data.senderId));
         if (!isParticipant) {
             throw new AuthenticationError("You are not a chat participant");
         }
+        console.log(data, isParticipant)
         const message = await MessageRepository.create(data);
         return message;
     },

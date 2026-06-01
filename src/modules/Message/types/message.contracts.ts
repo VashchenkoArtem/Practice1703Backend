@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { IMessage, IMessageWithPagination, IPaginationData, IMessageCreate, IMessagePayload, } from "./message.types";
+import { IMessage, IMessageWithPagination, IPaginationData, IMessageCreate, IMessagePayload, ICreateMessage, IMessageCreateDTO, } from "./message.types";
 import { AuthenticatedSocket, ServerSocket } from "../../Socket/socket.types";
 export interface MessageControllerContract {
     getChatMessages: (req: Request<{
@@ -12,6 +12,16 @@ export interface MessageControllerContract {
     }>, res: Response<IMessageWithPagination | string, {
         userId: number;
     }>, next: NextFunction) => void;
+    createMessageWithImage: (
+        req: Request<
+            {chatId: string},
+            IMessage | string, 
+            ICreateMessage,
+            object
+        >,
+        res: Response<IMessage | string>,
+        next: NextFunction
+    ) => void
 }
 export interface MessageServiceContract {
     getChatMessages: (chatId: number, userId: number, pagination: IPaginationData) => Promise<IMessageWithPagination>;

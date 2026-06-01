@@ -34,4 +34,5 @@ export interface ChatSocketControllerContract {
     registerHandlers: (socket: AuthenticatedSocket) => void;
     joinChat: (socket: AuthenticatedSocket, data: JoinChatPayload, ack?: JoinChatCallback) => void;
     leaveChat: (socket: AuthenticatedSocket, data: LeaveChatPayload) => void;
+    
 }

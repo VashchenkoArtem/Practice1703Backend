@@ -29,6 +29,7 @@ export const MessageRepository: MessageRepositoryContract = {
         const message = await client.message.create({
             data: {
                 ...data,
+                senderId: Number(data.senderId),
                 chatAsLastMessageId: data.chatId,
             },
         });

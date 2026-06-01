@@ -4,6 +4,7 @@ import { ChatSocketControllerContract } from "./types/chat.contracts";
 export const ChatSocketController: ChatSocketControllerContract = {
     registerHandlers(socket) {
         socket.on("joinChat", (data, ack) => {
+            console.log(data)
             this.joinChat(socket, data, ack);
         });
         socket.on("leaveChat", (data) => {

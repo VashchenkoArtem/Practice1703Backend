@@ -18,6 +18,7 @@ export const uploadMiddleware = multer({ storage: memoryStorage() });
 export function procImgMiddleware(width: number, quality: number, fieldName: string = "avatar") {
     return async (req: Request, res: Response, next: NextFunction) => {
         const file = req.body[fieldName];
+        console.log(file)
         try {
             if (file && typeof file === "string") {
                 if (await imageExist(file)) {

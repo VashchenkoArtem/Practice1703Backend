@@ -6,13 +6,17 @@ export const ChatRepository: ChatRepositoryContract = {
             where: {
                 participants: {
                     some: {
-                        userId: userId,
+                        userId,
                     },
                 },
             },
             include: {
                 participants: {
-                    where: { NOT: { userId: userId } },
+                    where: {
+                        NOT: {
+                            userId,
+                        },
+                    },
                     include: {
                         user: {
                             select: {
@@ -21,7 +25,9 @@ export const ChatRepository: ChatRepositoryContract = {
                                 surname: true,
                                 avatar: true,
                                 contactOf: {
-                                    where: { ownerId: userId },
+                                    where: {
+                                        ownerId: userId,
+                                    },
                                     select: {
                                         id: true,
                                         contactName: true,
@@ -47,14 +53,42 @@ export const ChatRepository: ChatRepositoryContract = {
                         updatedAt: true,
                         sender: {
                             select: {
-                                name: true
-                            }
-                        }
-                    }
-                }
+                                name: true,
+                            },
+                        },
+                    },
+                },
             },
         });
-        return chats;
+
+        return chats.map((chat) => {
+            const participant = chat.participants[0]?.user;
+
+            if (!participant) {
+                throw new Error(`Chat ${chat.id} has no participant`);
+            }
+
+            const contact = participant.contactOf[0];
+
+            const { contactOf, ...userInfo } = participant;
+
+            if (contact) {
+                return {
+                    ...chat,
+                    participant: {
+                        ...userInfo,
+                        contactOf: contact,
+                    },
+                    isInContact: true as const,
+                };
+            }
+
+            return {
+                ...chat,
+                participant: userInfo,
+                isInContact: false as const,
+            };
+        });
     },
     getChatByParticipants: async (userId, userIdSecond) => {
         const ParticipantChat = await client.chat.findFirst({
@@ -87,6 +121,7 @@ export const ChatRepository: ChatRepositoryContract = {
                                 avatar: true,
                             },
                         },
+                        
                     },
                 },
             },

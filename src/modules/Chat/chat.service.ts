@@ -22,6 +22,7 @@ export const ChatService: ChatServiceContract = {
         const isUserInChat = chat.participants.some((participant) => {
             return participant.userId === userId;
         });
+        console.log(isUserInChat)
         return isUserInChat;
     },
     createChat: async (userId, participantId) => {

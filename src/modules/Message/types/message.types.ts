@@ -13,8 +13,18 @@ export interface IPaginationData {
     limit?: number;
 }
 export interface IMessagePayload {
-    type: "text" | "image";
+    type: "text" | "media";
     text?: string;
     chatId: number;
     mediaUrl?: string;
+}
+
+export type ICreateMessage = {
+    text: string;
+    type: "media"
+    senderId: number
+}
+export interface IMessageCreateDTO extends ICreateMessage{
+    chatId: number;
+    mediaUrl: string
 }
